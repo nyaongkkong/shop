@@ -1,4 +1,4 @@
-package com.lym.shop.domain;
+package com.lym.shop.domain.member;
 
 import jakarta.persistence.*;
 import lombok.*;
