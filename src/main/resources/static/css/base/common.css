@@ -1,0 +1,16 @@
+/* 공통 바디/폰트/배경 */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Noto Sans KR", "맑은 고딕", sans-serif;
+    background-color: #f5f5f5;
+    color: #222;
+}
+
+/* 공통 레이아웃 wrapper */
+.inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* 반응형에서 공통으로 사용할 수 있는 것 있으면 여기 추가해도 됨 */

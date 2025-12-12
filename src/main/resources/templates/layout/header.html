@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="header">
+
+    <div class="top-bar">
+        <div class="inner top-bar-inner">
+            <a class="top-link" href="#">고객센터</a>
+            <a class="top-link" th:href="@{/login}">로그인</a>
+            <a class="top-link" th:href="@{/signup}">회원가입</a>
+        </div>
+    </div>
+
+    <header>
+        <div class="inner header-inner">
+            <div class="header-left">
+                <div class="logo">
+                    SH<span>OP</span>
+                </div>
+                <a class="home-link" th:href="@{/}">HOME</a>
+            </div>
+
+            <div class="header-search">
+                <div class="search-box">
+                    <input class="search-input"
+                           type="text"
+                           placeholder="상품명, 브랜드명 등을 검색해보세요">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+</div>
+</body>
+</html>

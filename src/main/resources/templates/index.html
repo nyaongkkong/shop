@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SHOP | 홈</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" th:href="@{/css/base/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/base/common.css}">
+    <link rel="stylesheet" th:href="@{/css/layout/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/pages/home.css}"></head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+<div th:replace="layout/nav :: nav"></div>
+<div th:replace="layout/main :: main"></div>
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>
