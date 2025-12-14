@@ -1,9 +1,7 @@
-/* 메인 전체 여백 */
 main {
     padding: 20px 0 60px;
 }
 
-/* ===== HERO 배너 ===== */
 .hero-banner {
     background: linear-gradient(135deg, #111 0%, #333 100%);
     border-radius: 16px;
@@ -52,7 +50,6 @@ main {
     font-weight: 700;
 }
 
-/* ===== 추천 상품 ===== */
 .section-title {
     font-size: 18px;
     font-weight: 700;
@@ -115,7 +112,6 @@ main {
     margin-left: 4px;
 }
 
-/* 홈 페이지 반응형 */
 @media (max-width: 1024px) {
     .hero-banner {
         flex-direction: column;

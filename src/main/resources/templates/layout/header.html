@@ -6,8 +6,16 @@
     <div class="top-bar">
         <div class="inner top-bar-inner">
             <a class="top-link" href="#">고객센터</a>
-            <a class="top-link" th:href="@{/login}">로그인</a>
-            <a class="top-link" th:href="@{/signup}">회원가입</a>
+
+            <div id="top-guest" class="top-auth">
+                <a class="top-link" th:href="@{/login}">로그인</a>
+                <a class="top-link" th:href="@{/signup}">회원가입</a>
+            </div>
+
+            <div id="top-user" class="top-auth" style="display:none;">
+                <span class="top-link" id="top-nickname"></span>
+                <a class="top-link" href="#" id="logoutBtn">로그아웃</a>
+            </div>
         </div>
     </div>
 
@@ -30,7 +38,6 @@
             </div>
         </div>
     </header>
-
 </div>
 </body>
 </html>

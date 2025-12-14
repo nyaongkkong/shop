@@ -9,12 +9,14 @@
     <link rel="stylesheet" th:href="@{/css/base/common.css}">
     <link rel="stylesheet" th:href="@{/css/layout/layout.css}">
     <link rel="stylesheet" th:href="@{/css/pages/home.css}"></head>
-<body>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<body>
 <div th:replace="layout/header :: header"></div>
 <div th:replace="layout/nav :: nav"></div>
 <div th:replace="layout/main :: main"></div>
 <div th:replace="layout/footer :: footer"></div>
 
+<script th:src="@{/js/layout/header.js}"></script>
 </body>
 </html>

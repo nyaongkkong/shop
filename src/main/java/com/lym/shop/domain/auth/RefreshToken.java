@@ -1,15 +1,17 @@
-package com.lym.shop.domain.member;
+package com.lym.shop.domain.auth;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "member")
+@Table(name = "refresh_token")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class RefreshToken {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,12 +19,6 @@ public class Member {
     @Column(nullable = false, unique = true, length = 30)
     private String username;
 
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false, length = 50)
-    private String nickname;
-
-    @Column(nullable = false)
-    private String role = "ROLE_USER";
+    @Column(nullable = false, length = 500)
+    private String token;
 }
