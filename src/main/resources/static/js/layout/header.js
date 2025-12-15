@@ -21,13 +21,14 @@ $(document).ready(function () {
         localStorage.removeItem("refreshToken");
     }
 
-    function extractErrorMessage(xhr, fallbackMsg) {
+    function getErrorMessage(xhr, fallbackMsg) {
         let msg = fallbackMsg || "요청 처리 중 오류가 발생했습니다.";
 
-        if (xhr && xhr.responseJSON) {
-            msg = xhr.responseJSON.message || msg;
+        if (xhr && xhr.responseJSON && xhr.responseJSON.error) {
+            const err = xhr.responseJSON.error;
+            msg = err.message || msg;
 
-            const fe = xhr.responseJSON.fieldErrors;
+            const fe = err.fieldErrors;
             if (fe) {
                 const firstKey = Object.keys(fe)[0];
                 if (firstKey) msg = fe[firstKey];
@@ -35,7 +36,6 @@ $(document).ready(function () {
         } else if (xhr && xhr.responseText) {
             msg = xhr.responseText;
         }
-
         return msg;
     }
 
@@ -81,7 +81,7 @@ $(document).ready(function () {
             headers: { "Authorization": "Bearer " + token },
 
             success: function (res) {
-                showUser(res.nickname);
+                showUser(res.data.nickname);
             },
 
             error: function (xhr) {
@@ -89,7 +89,7 @@ $(document).ready(function () {
                     refreshAccessToken(refresh);
                     return;
                 }
-
+                // console.warn(getErrorMessage(xhr, "인증 정보를 확인할 수 없습니다."));
                 clearTokens();
                 showGuest();
             }
@@ -101,14 +101,16 @@ $(document).ready(function () {
             url: "/api/auth/refresh",
             method: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ refreshToken: refreshToken }),
+            data: JSON.stringify({ refreshToken }),
 
             success: function (res) {
-                localStorage.setItem("accessToken", res.accessToken);
-                callMeApi(res.accessToken, refreshToken);
+                const data = res.data;
+                localStorage.setItem("accessToken", data.accessToken);
+                callMeApi(data.accessToken, refreshToken);
             },
 
             error: function (xhr) {
+                // console.warn(getErrorMessage(xhr, "세션이 만료되었습니다. 다시 로그인해주세요."));
                 clearTokens();
                 showGuest();
             }

@@ -13,26 +13,28 @@ $(document).ready(function () {
             url: "/api/auth/login",
             method: "POST",
             contentType: "application/json",
-            data: JSON.stringify({
-                username: username,
-                password: password
-            }),
-            success: function (res) {
-                localStorage.setItem("accessToken", res.accessToken);
-                localStorage.setItem("refreshToken", res.refreshToken);
+            data: JSON.stringify({ username, password }),
 
+            success: function (res) {
+                const data = res.data;
+                localStorage.setItem("accessToken", data.accessToken);
+                localStorage.setItem("refreshToken", data.refreshToken);
                 window.location.href = "/";
             },
+
             error: function (xhr) {
                 let msg = "로그인에 실패했습니다.";
 
                 if (xhr.responseJSON) {
-                    msg = xhr.responseJSON.message || msg;
+                    const err = xhr.responseJSON.error;
+                    if (err) {
+                        msg = err.message || msg;
 
-                    const fe = xhr.responseJSON.fieldErrors;
-                    if (fe) {
-                        const firstKey = Object.keys(fe)[0];
-                        if (firstKey) msg = fe[firstKey];
+                        const fe = err.fieldErrors;
+                        if (fe) {
+                            const firstKey = Object.keys(fe)[0];
+                            if (firstKey) msg = fe[firstKey];
+                        }
                     }
                 } else if (xhr.responseText) {
                     msg = xhr.responseText;
