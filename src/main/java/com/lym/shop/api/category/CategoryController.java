@@ -1,36 +1,42 @@
 package com.lym.shop.api.category;
 
-import com.lym.shop.api.category.dto.CategoryProductItemResponse;
+import com.lym.shop.api.category.dto.CategoryPageResponse;
+import com.lym.shop.api.common.ApiResponse;
+import com.lym.shop.domain.brand.Brand;
+import com.lym.shop.domain.brand.BrandService;
 import com.lym.shop.domain.category.Category;
 import com.lym.shop.domain.category.CategoryService;
-import com.lym.shop.domain.product.Product;
 import com.lym.shop.domain.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequiredArgsConstructor
-@RequestMapping("/categories")
-public class CategoryController {
+import java.util.List;
 
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/categories")
+public class CategoryController {
     private final CategoryService categoryService;
     private final ProductService productService;
+    private final BrandService brandService;
 
     @GetMapping("/{slug}")
-    public String categoryPage(@PathVariable String slug, @RequestParam(defaultValue = "0") int page, Model model) {
+    public ResponseEntity<ApiResponse<CategoryPageResponse>> categoryPage(@PathVariable String slug) {
+        System.out.println("slug : " + slug);
         Category category = categoryService.getBySlug(slug);
 
-        Page<Product> products = productService.getProductsByCategory(
+        var previewProducts = productService.getProductsByCategory(
                 category,
-                PageRequest.of(page, 20, Sort.by("createdAt").descending())
+                PageRequest.of(0, 10, Sort.by("createdAt").descending())
         );
 
-        model.addAttribute("category", category);
-        model.addAttribute("products", products);
+        List<Brand> brands = brandService.getBrandsHavingProductsIn(category, 20);
 
-        return "category/category-products";
+        CategoryPageResponse data = CategoryPageResponse.from(category, previewProducts.getContent(), brands);
+        System.out.println("data : " + data);
+        return ResponseEntity.ok(ApiResponse.ok(data));
     }
+
 }

@@ -29,13 +29,16 @@
             </div>
 
             <div class="header-search">
-                <div class="search-box">
+                <form class="search-box" action="/search" method="get">
                     <input class="search-input"
                            type="text"
+                           name="q"
+                           th:value="${q}"
                            placeholder="상품명, 브랜드명 등을 검색해보세요">
-                    <span class="search-icon">🔍</span>
-                </div>
+                    <button type="submit" class="search-icon" aria-label="search">🔍</button>
+                </form>
             </div>
+
         </div>
     </header>
 </div>

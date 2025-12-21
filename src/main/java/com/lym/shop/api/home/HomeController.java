@@ -2,6 +2,7 @@ package com.lym.shop.api.home;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class HomeController {
@@ -16,5 +17,9 @@ public class HomeController {
     @GetMapping("/signup")
     public String signupPage() {
         return "auth/signup";
+    }
+    @GetMapping("/categories/{slug}")
+    public String page(@PathVariable String slug) {
+        return "category/category-products";
     }
 }

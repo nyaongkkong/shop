@@ -2,12 +2,12 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="'SHOP'"></title>
+    <title>SHOP</title>
 
     <link rel="stylesheet" th:href="@{/css/base/reset.css}">
     <link rel="stylesheet" th:href="@{/css/base/common.css}">
     <link rel="stylesheet" th:href="@{/css/layout/layout.css}">
-    <link rel="stylesheet" th:href="@{/css/pages/home.css}"></head>
+    <link rel="stylesheet" th:href="@{/css/pages/home.css}">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -17,76 +17,46 @@
 
 <main>
     <div class="inner">
+
         <section class="hero-banner">
             <div>
-                <div class="hero-text-title"
-                     th:text="${category.name}">
-                    스니커즈
-                </div>
+                <div id="categoryTitle" class="hero-text-title">카테고리</div>
                 <div class="hero-text-sub">
                     지금 가장 인기 있는 상품을 확인해보세요
                 </div>
 
-                <button class="hero-cta">
+                <button class="hero-cta" type="button" id="sortPopularBtn">
                     인기순 보기 →
                 </button>
             </div>
 
-            <div class="hero-image"
-                 th:text="${category.name}">
-                SNEAKERS
-            </div>
+            <div id="categoryHeroImage" class="hero-image">CATEGORY</div>
         </section>
 
-        <!-- PRODUCT LIST -->
+        <!-- PRODUCT PREVIEW -->
         <section>
-            <div class="section-title"
-                 th:text="${category.name} + ' 상품'">
-                스니커즈 상품
-            </div>
+            <div id="productSectionTitle" class="section-title">인기 상품</div>
 
-            <div class="product-grid">
-                <div class="product-card"
-                     th:each="product : ${products.content}"
-                     th:onclick="|location.href='@{/products/{slug}(slug=${product.slug})}'|">
+            <div id="productGrid" class="product-grid"></div>
 
-                    <div class="product-thumb">
-                        <div class="product-thumb-inner">
-                            <img th:if="${product.thumbnailUrl != null}"
-                                 th:src="${product.thumbnailUrl}"
-                                 alt=""
-                                 style="width:100%; height:100%; object-fit:cover;"/>
-                            <span th:if="${product.thumbnailUrl == null}">
-                                NO IMAGE
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="product-brand"
-                         th:text="${product.brand.name}">
-                        나이키
-                    </div>
-
-                    <div class="product-name"
-                         th:text="${product.name}">
-                        나이키 에어포스 1
-                    </div>
-
-                    <div class="product-price">
-                        <span th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}">
-                            139,000
-                        </span>
-                        <span class="product-price-label">원</span>
-                    </div>
-                </div>
+            <div style="margin-top:12px;">
+                <button class="hero-cta" type="button" id="moreProductsBtn">
+                    상품 더보기 →
+                </button>
             </div>
         </section>
 
+        <!-- BRANDS SECTION -->
+        <section style="margin-top:30px;">
+            <div id="brandSectionTitle" class="section-title">브랜드</div>
+            <div id="brandGrid" class="product-grid"></div>
+        </section>
     </div>
 </main>
 
 <div th:replace="layout/footer :: footer"></div>
 
 <script th:src="@{/js/layout/header.js}"></script>
+<script th:src="@{/js/pages/category-products.js}"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.lym.shop.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,12 @@ public class SecurityConfig {
                         .requestMatchers("/", "/index", "/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/login", "/signup").permitAll()
                         .requestMatchers("/api/auth/login", "/api/auth/signup", "/api/auth/refresh").permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/categories/**",
+                                "/api/search/**",
+                                "/api/products/**",
+                                "/api/brands/**"
+                        ).permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
                 )
