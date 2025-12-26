@@ -1,17 +1,13 @@
 $(function () {
-  const slug = getCategorySlugFromPath(); // /categories/sneakers -> sneakers
+  const slug = getCategorySlugFromPath();
   if (!slug) return;
 
-  // 버튼들 기본 동작 연결
   $('#moreProductsBtn').on('click', function () {
-    // 아직 전체 리스트 페이지가 없다면 일단 카테고리 URL 유지
-    // 나중에 /categories/{slug}/products 같은 페이지 만들면 그쪽으로 연결
     location.href = '/categories/' + encodeURIComponent(slug);
   });
 
-  // (선택) 인기순 버튼 - 아직 API 정렬 파라미터가 없으니 안내만
   $('#sortPopularBtn').on('click', function () {
-    alert('인기순 정렬은 다음 단계에서 붙일게요!');
+    location.href = '/categories/' + encodeURIComponent(slug);
   });
 
   loadCategoryPage(slug);
@@ -134,10 +130,8 @@ function renderError(message) {
 }
 
 function getCategorySlugFromPath() {
-  // 예: /categories/sneakers
   const path = window.location.pathname || '';
   const parts = path.split('/').filter(Boolean);
-  // ["categories", "sneakers"]
   if (parts.length >= 2 && parts[0] === 'categories') return parts[1];
   return null;
 }
@@ -147,6 +141,7 @@ function formatPrice(price) {
   const n = typeof price === 'number' ? price : Number(price);
   if (Number.isFinite(n)) return n.toLocaleString('ko-KR');
   return (price == null ? '' : String(price));
+
 }
 
 function escapeHtml(str) {

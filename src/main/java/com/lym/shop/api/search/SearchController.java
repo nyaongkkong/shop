@@ -1,26 +1,26 @@
 package com.lym.shop.api.search;
 
+import com.lym.shop.api.common.ApiResponse;
+import com.lym.shop.api.search.dto.SearchResponse;
 import com.lym.shop.api.search.dto.SearchResult;
 import com.lym.shop.domain.search.SearchService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/search")
+@RequestMapping("/api/search")
 public class SearchController {
     private final SearchService searchService;
 
     @GetMapping
-    public String searchPage(@RequestParam(name = "q", required = false) String q, Model model) {
+    public ResponseEntity<ApiResponse<SearchResponse>> search(@RequestParam(name = "q", required = false) String q) {
         SearchResult result = searchService.search(q);
-
-        model.addAttribute("q", result.query());
-        model.addAttribute("brands", result.brands());
-        model.addAttribute("products", result.products());
-
-        return "search/search";
+        SearchResponse data = SearchResponse.from(result);
+        return ResponseEntity.ok(ApiResponse.ok(data));
     }
 }

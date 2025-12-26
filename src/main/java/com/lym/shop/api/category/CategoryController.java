@@ -24,7 +24,6 @@ public class CategoryController {
 
     @GetMapping("/{slug}")
     public ResponseEntity<ApiResponse<CategoryPageResponse>> categoryPage(@PathVariable String slug) {
-        System.out.println("slug : " + slug);
         Category category = categoryService.getBySlug(slug);
 
         var previewProducts = productService.getProductsByCategory(
@@ -35,7 +34,7 @@ public class CategoryController {
         List<Brand> brands = brandService.getBrandsHavingProductsIn(category, 20);
 
         CategoryPageResponse data = CategoryPageResponse.from(category, previewProducts.getContent(), brands);
-        System.out.println("data : " + data);
+
         return ResponseEntity.ok(ApiResponse.ok(data));
     }
 

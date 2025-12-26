@@ -22,4 +22,8 @@ public class HomeController {
     public String page(@PathVariable String slug) {
         return "category/category-products";
     }
+    @GetMapping("/search")
+    public String page() {
+        return "search/search";
+    }
 }
