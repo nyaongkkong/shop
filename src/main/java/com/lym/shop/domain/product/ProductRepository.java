@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByPrimaryCategoryAndStatus(Category primaryCategory, ProductStatus status, Pageable pageable);
@@ -35,4 +36,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             String q,
             Pageable pageable
     );
+
+    Optional<Product> findBySlugAndStatus(String slug, ProductStatus status);
 }

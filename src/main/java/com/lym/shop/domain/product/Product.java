@@ -2,7 +2,6 @@ package com.lym.shop.domain.product;
 
 import com.lym.shop.domain.brand.Brand;
 import com.lym.shop.domain.category.Category;
-import com.lym.shop.domain.product.ProductStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -73,7 +72,6 @@ public class Product {
         product.updatedAt = product.createdAt;
         return product;
     }
-
 
     public void update(String name, String slug, String thumbnailUrl, BigDecimal price, ProductStatus status) {
         this.name = name;

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SHOP</title>
+
+    <link rel="stylesheet" th:href="@{/css/base/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/base/common.css}">
+    <link rel="stylesheet" th:href="@{/css/layout/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/pages/home.css}">
+    <link rel="stylesheet" th:href="@{/css/pages/product-detail.css}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+<div th:replace="layout/nav :: nav"></div>
+
+<main>
+    <div class="inner">
+
+        <!-- PRODUCT DETAIL -->
+        <section class="product-detail-wrap">
+
+            <!-- LEFT : IMAGE -->
+            <div class="product-detail-image">
+                <div id="productImage" class="product-image-box">
+                    IMAGE
+                </div>
+            </div>
+
+            <!-- RIGHT : INFO -->
+            <div class="product-detail-info">
+
+                <!-- BRAND -->
+                <div id="productBrand" class="detail-brand">
+                    BRAND
+                </div>
+
+                <!-- NAME -->
+                <div id="productName" class="detail-name">
+                    PRODUCT NAME
+                </div>
+
+                <!-- PRICE -->
+                <div class="detail-price">
+                    <span id="productPrice">0</span>
+                    <span class="price-unit">원</span>
+                </div>
+
+                <!-- BUY BUTTON -->
+                <button id="buyBtn" class="detail-buy-btn" type="button">
+                    구매하기
+                </button>
+
+                <!-- META -->
+                <div class="detail-meta">
+                    <div>
+                        카테고리 :
+                        <span id="productCategory"></span>
+                    </div>
+                    <div>
+                        브랜드 :
+                        <span id="productBrandName"></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+
+<script th:src="@{/js/layout/header.js}"></script>
+<script th:src="@{/js/pages/product-detail.js}"></script>
+</body>
+</html>

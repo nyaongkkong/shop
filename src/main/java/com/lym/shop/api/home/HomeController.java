@@ -19,11 +19,16 @@ public class HomeController {
         return "auth/signup";
     }
     @GetMapping("/categories/{slug}")
-    public String page(@PathVariable String slug) {
+    public String categoryPage(@PathVariable String slug) {
         return "category/category-products";
     }
     @GetMapping("/search")
     public String page() {
         return "search/search";
+    }
+
+    @GetMapping("/products/{slug}")
+    public String productPage(@PathVariable String slug) {
+        return "product/product-detail";
     }
 }

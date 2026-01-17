@@ -13,7 +13,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OptionDefinition {
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
