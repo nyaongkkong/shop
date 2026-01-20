@@ -31,4 +31,9 @@ public class HomeController {
     public String productPage(@PathVariable String slug) {
         return "product/product-detail";
     }
+
+    @GetMapping("/brands/{slug}")
+    public String brandPage(@PathVariable String slug) {
+        return "brand/brand-products";
+    }
 }

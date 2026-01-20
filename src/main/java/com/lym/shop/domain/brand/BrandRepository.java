@@ -15,4 +15,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
     // "정확히 일치" 우선 처리용(선택)
     Optional<Brand> findByActiveTrueAndNameIgnoreCase(String name);
 
+    Optional<Brand> findBySlugAndActiveTrue(String slug);
+
+
 }

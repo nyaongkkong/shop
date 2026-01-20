@@ -10,12 +10,19 @@ $(function () {
     location.href = '/categories/' + encodeURIComponent(slug);
   });
 
-  loadCategoryPage(slug);
+  const brand = getQueryParam('brand');
+  loadCategoryPage(slug, brand);
 });
 
-function loadCategoryPage(slug) {
+function loadCategoryPage(slug, brand) {
+  let apiUrl = '/api/categories/' + encodeURIComponent(slug);
+
+  if (brand) {
+    apiUrl += '?brand=' + encodeURIComponent(brand);
+  }
+
   $.ajax({
-    url: '/api/categories/' + encodeURIComponent(slug),
+    url: apiUrl,
     method: 'GET',
     success: function (res) {
       if (!res || res.success !== true) {
@@ -41,7 +48,13 @@ function loadCategoryPage(slug) {
 }
 
 function renderCategoryHeader(category) {
-  $('#categoryTitle').text(category.name);
+  const brand = getQueryParam('brand');
+  if (brand) {
+    $('#categoryTitle').text(category.name + ' · ' + brand.toUpperCase());
+  } else {
+    $('#categoryTitle').text(category.name);
+  }
+
   $('#categoryHeroImage').text(category.name);
 
   $('#productSectionTitle').text(category.name + ' 인기 상품');
@@ -101,9 +114,7 @@ function renderBrands(category, brands) {
       ? `<img src="${escapeHtml(b.logoUrl)}" alt="" style="width:100%; height:100%; object-fit:cover;">`
       : `<span>${escapeHtml(b.name || '')}</span>`;
 
-    // 브랜드 카드 클릭 → (다음 단계) 카테고리 + 브랜드 필터
-    // 지금은 필터 API가 없으니, 임시로 브랜드 페이지(있으면) or 검색으로 보내도 됨.
-    const href = '/search?q=' + encodeURIComponent(b.name);
+    const href = '/categories/' + encodeURIComponent(category.slug) + '?brand=' + encodeURIComponent(b.slug);
 
     const cardHtml = `
       <div class="product-card" data-brand-slug="${escapeHtml(b.slug)}">
@@ -152,4 +163,9 @@ function escapeHtml(str) {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#039;');
+}
+
+function getQueryParam(key) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(key);
 }

@@ -11,7 +11,18 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Page<Product> findByPrimaryCategoryAndStatus(Category primaryCategory, ProductStatus status, Pageable pageable);
+    Page<Product> findByPrimaryCategoryAndStatus(
+            Category primaryCategory,
+            ProductStatus status,
+            Pageable pageable
+    );
+
+    Page<Product> findByPrimaryCategoryAndBrandAndStatus(
+            Category primaryCategory,
+            Brand brand,
+            ProductStatus status,
+            Pageable pageable
+    );
 
     // 카테고리에 상품이 있는 브랜드 목록 (중복 제거)
     @Query("""
@@ -38,4 +49,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     );
 
     Optional<Product> findBySlugAndStatus(String slug, ProductStatus status);
+
+    Page<Product> findByBrandAndStatus(
+            Brand brand,
+            ProductStatus status,
+            Pageable pageable
+    );
+
+
+
+
 }

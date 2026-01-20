@@ -1,5 +1,6 @@
 package com.lym.shop.domain.product;
 
+import com.lym.shop.domain.brand.Brand;
 import com.lym.shop.domain.category.Category;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,40 @@ public class ProductService {
         );
     }
 
+    public Page<Product> getProductsByCategory(
+            Category category,
+            Brand brand,
+            Pageable pageable
+    ) {
+
+        if (brand == null) {
+            return productRepository.findByPrimaryCategoryAndStatus(
+                    category,
+                    ProductStatus.ACTIVE,
+                    pageable
+            );
+        }
+
+        return productRepository.findByPrimaryCategoryAndBrandAndStatus(
+                category,
+                brand,
+                ProductStatus.ACTIVE,
+                pageable
+        );
+    }
+
     public Product getBySlug(String slug) {
         return productRepository
                 .findBySlugAndStatus(slug, ProductStatus.ACTIVE)
                 .orElseThrow(() -> new EntityNotFoundException("상품을 찾을 수 없습니다."));
     }
+
+    public Page<Product> getProductsByBrand(Brand brand, Pageable pageable) {
+        return productRepository.findByBrandAndStatus(
+                brand,
+                ProductStatus.ACTIVE,
+                pageable
+        );
+    }
+
 }

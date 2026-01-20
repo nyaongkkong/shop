@@ -23,11 +23,20 @@ public class CategoryController {
     private final BrandService brandService;
 
     @GetMapping("/{slug}")
-    public ResponseEntity<ApiResponse<CategoryPageResponse>> categoryPage(@PathVariable String slug) {
+    public ResponseEntity<ApiResponse<CategoryPageResponse>> categoryPage(
+            @PathVariable String slug,
+            @RequestParam(required = false) String brand
+    ) {
         Category category = categoryService.getBySlug(slug);
+
+        Brand brandEntity = null;
+        if (brand != null && !brand.isBlank()) {
+            brandEntity = brandService.getBySlug(brand);
+        }
 
         var previewProducts = productService.getProductsByCategory(
                 category,
+                brandEntity,
                 PageRequest.of(0, 10, Sort.by("createdAt").descending())
         );
 
