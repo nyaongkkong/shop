@@ -1,5 +1,6 @@
-$(function () {
+let currentProductId = null;
 
+$(function () {
   const slug = getSlug();
   if (!slug) return;
 
@@ -22,7 +23,13 @@ $(function () {
 
 });
 
+/* ==========================
+   PRODUCT RENDER
+========================== */
+
 function renderProduct(p) {
+
+  currentProductId = p.id;
 
   $('#productName').text(p.name);
   $('#productBrand').text(p.brand.name);
@@ -38,10 +45,96 @@ function renderProduct(p) {
     );
   }
 
-  $('#buyBtn').on('click', function () {
+  // 구매 버튼
+  $('#buyBtn').off('click').on('click', function () {
     alert('구매 기능은 다음 단계에서!');
   });
+
+  // 찜 버튼
+  $('#likeBtn').off('click').on('click', function () {
+    toggleLike();
+  });
+
+  // 로그인 상태면 찜 상태 조회
+  checkLikeStatus();
 }
+
+/* ==========================
+   LIKE API
+========================== */
+
+function checkLikeStatus() {
+
+  const token = localStorage.getItem('accessToken');
+  if (!token) return; // 비로그인 → 기본 🤍
+
+  $.ajax({
+    url: '/api/products/' + currentProductId + '/like',
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer ' + token
+    },
+    success: function (res) {
+      if (res && res.success) {
+        updateLikeUI(res.data.liked);
+      }
+    }
+  });
+}
+
+function toggleLike() {
+
+  const token = localStorage.getItem('accessToken');
+
+  if (!token) {
+    alert('로그인이 필요합니다.');
+    location.href = '/login';
+    return;
+  }
+
+  $.ajax({
+    url: '/api/products/' + currentProductId + '/like',
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer ' + token
+    },
+    success: function (res) {
+
+      if (!res || !res.success) {
+        alert('찜 처리 실패');
+        return;
+      }
+
+      updateLikeUI(res.data.liked);
+    },
+    error: function (xhr) {
+      alert(xhr?.responseJSON?.error?.message || '서버 오류');
+    }
+  });
+}
+
+function updateLikeUI(liked) {
+
+  const $btn = $('#likeBtn');
+
+  if (liked) {
+    $btn.text('❤️');
+    $btn.css({
+      borderColor: '#ff4d4f',
+      color: '#ff4d4f'
+    });
+  } else {
+    $btn.text('🤍');
+    $btn.css({
+      borderColor: '#ddd',
+      color: '#000'
+    });
+  }
+}
+
+/* ==========================
+   UTIL
+========================== */
 
 function getSlug() {
   const path = window.location.pathname;

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-
     private final MemberRepository memberRepository;
 
     @Override
@@ -17,10 +16,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원"));
-
+/*
         return User.withUsername(member.getUsername())
                 .password(member.getPassword())
                 .roles(member.getRole().replace("ROLE_", ""))
                 .build();
+ */
+
+        return new MemberDetails(member);
     }
 }
