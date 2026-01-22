@@ -1,5 +1,6 @@
 package com.lym.shop.domain.like;
 
+import com.lym.shop.api.like.dto.LikeProductResponse;
 import com.lym.shop.domain.member.Member;
 import com.lym.shop.domain.product.Product;
 import com.lym.shop.domain.product.ProductService;
@@ -7,10 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductLikeService {
-
     private final ProductLikeRepository productLikeRepository;
     private final ProductService productService;
 
@@ -52,5 +54,14 @@ public class ProductLikeService {
 
     public Product getProduct(Long productId) {
         return productService.getById(productId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<LikeProductResponse> getMyLikes(Member member) {
+        return productLikeRepository
+                .findAllByUserOrderByCreatedAtDesc(member)
+                .stream()
+                .map(like -> LikeProductResponse.from(like.getProduct()))
+                .toList();
     }
 }

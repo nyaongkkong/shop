@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>찜 목록</title>
+
+    <link rel="stylesheet" th:href="@{/css/base/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/base/common.css}">
+    <link rel="stylesheet" th:href="@{/css/layout/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/pages/home.css}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+<div th:replace="layout/nav :: nav"></div>
+
+<main>
+    <div class="inner">
+
+        <section>
+            <div class="section-title">❤️ 찜한 상품</div>
+            <div id="likeGrid" class="product-grid"></div>
+        </section>
+
+    </div>
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+
+<script th:src="@{/js/layout/header.js}"></script>
+<script th:src="@{/js/pages/my-likes.js}"></script>
+
+</body>
+</html>

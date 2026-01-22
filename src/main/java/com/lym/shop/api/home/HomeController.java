@@ -36,4 +36,9 @@ public class HomeController {
     public String brandPage(@PathVariable String slug) {
         return "brand/brand-products";
     }
+
+    @GetMapping("/me/likes")
+    public String likePage() {
+        return "like/my-likes";
+    }
 }
