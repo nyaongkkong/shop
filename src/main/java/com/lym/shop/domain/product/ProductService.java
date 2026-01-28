@@ -1,6 +1,5 @@
 package com.lym.shop.domain.product;
 
-import com.lym.shop.domain.brand.Brand;
 import com.lym.shop.domain.category.Category;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -12,50 +11,38 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public Page<Product> getProductsByCategory(Category category, Pageable pageable) {
-        return productRepository.findByPrimaryCategoryAndStatus(
-                category,
-                ProductStatus.ACTIVE,
-                pageable
-        );
-    }
-
-    public Page<Product> getProductsByCategory(
+    /**
+     * QueryDSL 기반 통합 상품 조회
+     */
+    public Page<Product> getProducts(
             Category category,
-            Brand brand,
+            String brandSlug,
+            String keyword,
+            ProductSortType sortType,
             Pageable pageable
     ) {
 
-        if (brand == null) {
-            return productRepository.findByPrimaryCategoryAndStatus(
-                    category,
-                    ProductStatus.ACTIVE,
-                    pageable
-            );
-        }
-
-        return productRepository.findByPrimaryCategoryAndBrandAndStatus(
+        return productRepository.searchProducts(
                 category,
-                brand,
-                ProductStatus.ACTIVE,
+                brandSlug,
+                keyword,
+                sortType,
                 pageable
         );
     }
 
+    /**
+     * 상품 상세 (slug)
+     */
     public Product getBySlug(String slug) {
         return productRepository
                 .findBySlugAndStatus(slug, ProductStatus.ACTIVE)
                 .orElseThrow(() -> new EntityNotFoundException("상품을 찾을 수 없습니다."));
     }
 
-    public Page<Product> getProductsByBrand(Brand brand, Pageable pageable) {
-        return productRepository.findByBrandAndStatus(
-                brand,
-                ProductStatus.ACTIVE,
-                pageable
-        );
-    }
-
+    /**
+     * 상품 단건 (id)
+     */
     public Product getById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("상품을 찾을 수 없습니다."));

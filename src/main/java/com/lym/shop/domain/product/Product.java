@@ -2,6 +2,7 @@ package com.lym.shop.domain.product;
 
 import com.lym.shop.domain.brand.Brand;
 import com.lym.shop.domain.category.Category;
+import com.lym.shop.domain.like.ProductLike;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "product",
@@ -58,6 +61,9 @@ public class Product {
 
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt = Instant.now();
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<ProductLike> likes = new ArrayList<>();
 
     public static Product create(Brand brand, Category primaryCategory, String name, String slug, String thumbnailUrl, BigDecimal price) {
         Product product = new Product();

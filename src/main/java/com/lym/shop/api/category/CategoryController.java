@@ -7,6 +7,7 @@ import com.lym.shop.domain.brand.BrandService;
 import com.lym.shop.domain.category.Category;
 import com.lym.shop.domain.category.CategoryService;
 import com.lym.shop.domain.product.ProductService;
+import com.lym.shop.domain.product.ProductSortType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
@@ -25,26 +26,30 @@ public class CategoryController {
     @GetMapping("/{slug}")
     public ResponseEntity<ApiResponse<CategoryPageResponse>> categoryPage(
             @PathVariable String slug,
-            @RequestParam(required = false) String brand
+            @RequestParam(required = false) String brand,
+            @RequestParam(defaultValue = "LATEST") ProductSortType sort
     ) {
         Category category = categoryService.getBySlug(slug);
 
-        Brand brandEntity = null;
-        if (brand != null && !brand.isBlank()) {
-            brandEntity = brandService.getBySlug(brand);
-        }
-
-        var previewProducts = productService.getProductsByCategory(
+        var previewProducts = productService.getProducts(
                 category,
-                brandEntity,
-                PageRequest.of(0, 10, Sort.by("createdAt").descending())
+                brand,     // brandSlug 그대로 전달
+                null,      // keyword 없음 (카테고리 화면)
+                sort,
+                PageRequest.of(0, 10)
         );
 
         List<Brand> brands = brandService.getBrandsHavingProductsIn(category, 20);
 
-        CategoryPageResponse data = CategoryPageResponse.from(category, previewProducts.getContent(), brands);
+        CategoryPageResponse data =
+                CategoryPageResponse.from(
+                        category,
+                        previewProducts.getContent(),
+                        brands
+                );
 
         return ResponseEntity.ok(ApiResponse.ok(data));
     }
+
 
 }
