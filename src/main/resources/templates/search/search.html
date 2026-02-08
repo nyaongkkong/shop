@@ -2,15 +2,20 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${q != null && !#strings.isEmpty(q)} ? ('검색: ' + q) : '검색'">검색</title>
+
+    <title th:text="${q != null && !#strings.isEmpty(q)} ? ('검색: ' + q) : '검색'">
+        검색
+    </title>
 
     <link rel="stylesheet" th:href="@{/css/base/reset.css}">
     <link rel="stylesheet" th:href="@{/css/base/common.css}">
     <link rel="stylesheet" th:href="@{/css/layout/layout.css}">
-    <link rel="stylesheet" th:href="@{/css/pages/home.css}"></head>
+    <link rel="stylesheet" th:href="@{/css/pages/home.css}">
+    <link rel="stylesheet" th:href="@{/css/pages/search.css}">
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
 
 <div th:replace="layout/header :: header"></div>
@@ -19,10 +24,13 @@
 <main>
     <div class="inner">
 
+        <!-- HERO -->
         <section class="hero-banner">
             <div>
                 <div id="searchTitle" class="hero-text-title">검색</div>
-                <div class="hero-text-sub">브랜드 바로가기와 상품을 한 번에 확인하세요</div>
+                <div class="hero-text-sub">
+                    브랜드 바로가기와 상품을 한 번에 확인하세요
+                </div>
             </div>
             <div class="hero-image">SEARCH</div>
         </section>
@@ -33,8 +41,33 @@
             <div id="brandGrid" class="product-grid"></div>
         </section>
 
+        <!-- 🔥 FILTER BAR 추가 -->
+        <section style="margin-top:26px;">
+
+            <div class="search-filter-bar">
+
+                <button class="filter-btn" data-sort="POPULAR">
+                    인기순 ❤️
+                </button>
+
+                <button class="filter-btn" data-sort="LATEST">
+                    최신순
+                </button>
+
+                <button class="filter-btn" data-sort="PRICE_LOW">
+                    가격낮은순
+                </button>
+
+                <button class="filter-btn" data-sort="PRICE_HIGH">
+                    가격높은순
+                </button>
+
+            </div>
+
+        </section>
+
         <!-- PRODUCTS -->
-        <section style="margin-top:30px;">
+        <section style="margin-top:10px;">
             <div class="section-title">상품</div>
             <div id="productGrid" class="product-grid"></div>
         </section>
@@ -46,5 +79,6 @@
 
 <script th:src="@{/js/layout/header.js}"></script>
 <script th:src="@{/js/pages/search.js}"></script>
+
 </body>
 </html>

@@ -29,4 +29,13 @@ public class BrandService {
                 .findBySlugAndActiveTrue(slug)
                 .orElseThrow(() -> new EntityNotFoundException("브랜드를 찾을 수 없습니다."));
     }
+
+    public List<Brand> getBrandsBySearchKeyword(String keyword, int limit) {
+
+        if (keyword == null || keyword.isBlank()) {
+            return List.of();
+        }
+
+        return brandRepository.findBrandsByProductKeyword(keyword, limit);
+    }
 }

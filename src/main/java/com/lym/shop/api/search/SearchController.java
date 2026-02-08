@@ -3,6 +3,8 @@ package com.lym.shop.api.search;
 import com.lym.shop.api.common.ApiResponse;
 import com.lym.shop.api.search.dto.SearchResponse;
 import com.lym.shop.api.search.dto.SearchResult;
+import com.lym.shop.domain.brand.Brand;
+import com.lym.shop.domain.brand.BrandService;
 import com.lym.shop.domain.product.Product;
 import com.lym.shop.domain.product.ProductService;
 import com.lym.shop.domain.product.ProductSortType;
@@ -16,17 +18,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/search")
 public class SearchController {
     private final SearchService searchService;
+    private final BrandService brandService;
     private final ProductService productService;
 
     @GetMapping
     public ResponseEntity<ApiResponse<SearchResponse>> search(
             @RequestParam(name = "q") String keyword,
-            @RequestParam(defaultValue = "LATEST") ProductSortType sort,
+            @RequestParam(defaultValue = "POPULAR") ProductSortType sort,
             @RequestParam(defaultValue = "0") int page
     ) {
         Page<Product> products = productService.getProducts(
@@ -37,7 +42,9 @@ public class SearchController {
                         PageRequest.of(page, 20)
                 );
 
-        SearchResponse data = SearchResponse.from(products);
+        List<Brand> brands = brandService.getBrandsBySearchKeyword(keyword, 10);
+
+        SearchResponse data = SearchResponse.from(products, brands);
 
         return ResponseEntity.ok(ApiResponse.ok(data));
     }

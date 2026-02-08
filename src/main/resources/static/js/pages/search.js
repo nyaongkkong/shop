@@ -1,22 +1,48 @@
 $(function () {
+
   const q = getQueryParam('q') || '';
+  let sort = getQueryParam('sort');
+
   if (!q.trim()) {
     $('#searchTitle').text('검색');
     renderEmpty('검색어를 입력해 주세요.');
     return;
   }
 
+  // sort 없으면 인기순 기본 적용
+    if (!sort) {
+
+      const newUrl =
+        '/search?q=' +
+        encodeURIComponent(q) +
+        '&sort=POPULAR';
+
+      if (window.location.href !== newUrl) {
+        location.replace(newUrl);
+      }
+
+      return;
+    }
+
   $('#searchTitle').text("‘" + q + "’ 검색 결과");
 
+  // 필터 버튼 active 처리
+  setActiveSort(sort);
+
+  // 검색 API 호출
   $.ajax({
     url: '/api/search',
     method: 'GET',
-    data: { q },
+    data: {
+      q: q,
+      sort: sort
+    },
     success: function (res) {
       if (!res || res.success !== true) {
         renderEmpty('검색 결과를 불러오지 못했습니다.');
         return;
       }
+
       renderBrands(res.data.brands || []);
       renderProducts(res.data.products || []);
     },
@@ -25,9 +51,43 @@ $(function () {
       renderEmpty(xhr?.responseJSON?.error?.message || '서버 오류가 발생했습니다.');
     }
   });
+
+  // 필터 버튼 클릭 이벤트
+  $('.filter-btn').on('click', function () {
+
+    const newSort = $(this).data('sort');
+
+    location.href =
+      '/search?q=' +
+      encodeURIComponent(q) +
+      '&sort=' + newSort;
+  });
 });
 
+/* =========================
+   SORT UI
+========================= */
+
+function setActiveSort(sort) {
+
+  $('.filter-btn').each(function () {
+
+    const btnSort = $(this).data('sort');
+
+    if (btnSort === sort) {
+      $(this).addClass('active');
+    } else {
+      $(this).removeClass('active');
+    }
+  });
+}
+
+/* =========================
+   BRAND RENDER
+========================= */
+
 function renderBrands(brands) {
+
   const $grid = $('#brandGrid');
   $grid.empty();
 
@@ -37,6 +97,7 @@ function renderBrands(brands) {
   }
 
   brands.forEach(b => {
+
     const thumb = b.logoUrl
       ? `<img src="${escapeHtml(b.logoUrl)}" alt="" style="width:100%; height:100%; object-fit:cover;">`
       : `<span>${escapeHtml(b.name || '')}</span>`;
@@ -52,8 +113,8 @@ function renderBrands(brands) {
     `;
 
     const $card = $(cardHtml);
+
     $card.on('click', function () {
-      // 브랜드 페이지가 없으면 일단 검색 유지/또는 카테고리로 연결 가능
       location.href = '/brands/' + encodeURIComponent(b.slug);
     });
 
@@ -61,7 +122,12 @@ function renderBrands(brands) {
   });
 }
 
+/* =========================
+   PRODUCT RENDER
+========================= */
+
 function renderProducts(products) {
+
   const $grid = $('#productGrid');
   $grid.empty();
 
@@ -71,6 +137,7 @@ function renderProducts(products) {
   }
 
   products.forEach(p => {
+
     const thumb = p.thumbnailUrl
       ? `<img src="${escapeHtml(p.thumbnailUrl)}" alt="" style="width:100%; height:100%; object-fit:cover;">`
       : `<span>NO IMAGE</span>`;
@@ -92,6 +159,7 @@ function renderProducts(products) {
     `;
 
     const $card = $(cardHtml);
+
     $card.on('click', function () {
       location.href = '/products/' + encodeURIComponent(p.slug);
     });
@@ -99,6 +167,10 @@ function renderProducts(products) {
     $grid.append($card);
   });
 }
+
+/* =========================
+   UTIL
+========================= */
 
 function renderEmpty(msg) {
   $('#brandGrid').html(`<div style="color:#888; font-size:13px;">${escapeHtml(msg)}</div>`);
