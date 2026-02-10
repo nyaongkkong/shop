@@ -32,13 +32,17 @@ public class SearchController {
     public ResponseEntity<ApiResponse<SearchResponse>> search(
             @RequestParam(name = "q") String keyword,
             @RequestParam(defaultValue = "POPULAR") ProductSortType sort,
-            @RequestParam(defaultValue = "0") int page
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(required = false) Long minPrice,
+            @RequestParam(required = false) Long maxPrice
     ) {
         Page<Product> products = productService.getProducts(
                         null,      // category 없음
                         null,      // brand 없음
                         keyword,   // 검색어
                         sort,
+                        minPrice,
+                        maxPrice,
                         PageRequest.of(page, 20)
                 );
 

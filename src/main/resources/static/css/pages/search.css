@@ -1,9 +1,21 @@
+/* Sticky wrapper */
+.filter-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #fff;
+    padding: 12px 0;
+    margin-top: 26px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 필터바 */
 .search-filter-bar {
     display:flex;
     gap:10px;
-    align-items:center;
 }
 
+/* 버튼 */
 .filter-btn {
     padding:6px 14px;
     border-radius:999px;
@@ -11,15 +23,52 @@
     background:#fff;
     font-size:12px;
     cursor:pointer;
-    transition:all .15s ease;
-}
-
-.filter-btn:hover {
-    background:#f5f5f5;
 }
 
 .filter-btn.active {
     background:#111;
     color:#fff;
     border-color:#111;
+}
+
+.price-filter-section {
+    margin-top:16px;
+    padding:14px 0;
+    border-bottom:1px solid #eee;
+}
+
+.price-filter-title {
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.price-slider-wrapper {
+    position:relative;
+    height:30px;
+}
+
+.price-slider-wrapper input[type=range] {
+    position:absolute;
+    width:100%;
+    pointer-events:none;
+    -webkit-appearance:none;
+    background:none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    pointer-events:auto;
+    -webkit-appearance:none;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#111;
+    cursor:pointer;
+}
+
+.price-values {
+    font-size:12px;
+    margin-top:6px;
+    display:flex;
+    gap:6px;
 }

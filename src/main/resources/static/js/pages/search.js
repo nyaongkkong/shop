@@ -197,3 +197,48 @@ function escapeHtml(str) {
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#039;');
 }
+
+const $min = $('#priceMin');
+const $max = $('#priceMax');
+
+if ($min.length && $max.length) {
+
+  const q = getQueryParam('q');
+  const sort = getQueryParam('sort') || 'POPULAR';
+
+  updatePriceText();
+
+  $min.on('input', function () {
+
+    if (Number($min.val()) > Number($max.val())) {
+      $min.val($max.val());
+    }
+
+    updatePriceText();
+  });
+
+  $max.on('input', function () {
+
+    if (Number($max.val()) < Number($min.val())) {
+      $max.val($min.val());
+    }
+
+    updatePriceText();
+  });
+
+  // 슬라이더 놓으면 검색 재호출
+  $('input[type=range]').on('change', function () {
+
+    location.href =
+      '/search?q=' + encodeURIComponent(q) +
+      '&sort=' + sort +
+      '&minPrice=' + $min.val() +
+      '&maxPrice=' + $max.val();
+  });
+}
+
+function updatePriceText() {
+
+  $('#priceMinText').text(formatPrice($min.val()) + '원');
+  $('#priceMaxText').text(formatPrice($max.val()) + '원');
+}

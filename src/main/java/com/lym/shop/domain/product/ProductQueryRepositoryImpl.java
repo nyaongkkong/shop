@@ -22,6 +22,8 @@ public class ProductQueryRepositoryImpl implements ProductQueryRepository {
             String brandSlug,
             String keyword,
             ProductSortType sortType,
+            Long minPrice,
+            Long maxPrice,
             Pageable pageable
     ) {
         QProduct product = QProduct.product;

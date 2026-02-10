@@ -27,7 +27,9 @@ public class CategoryController {
     public ResponseEntity<ApiResponse<CategoryPageResponse>> categoryPage(
             @PathVariable String slug,
             @RequestParam(required = false) String brand,
-            @RequestParam(defaultValue = "LATEST") ProductSortType sort
+            @RequestParam(defaultValue = "LATEST") ProductSortType sort,
+            Long minPrice,
+            Long maxPrice
     ) {
         Category category = categoryService.getBySlug(slug);
 
@@ -36,13 +38,14 @@ public class CategoryController {
                 brand,     // brandSlug 그대로 전달
                 null,      // keyword 없음 (카테고리 화면)
                 sort,
+                minPrice,
+                maxPrice,
                 PageRequest.of(0, 10)
         );
 
         List<Brand> brands = brandService.getBrandsHavingProductsIn(category, 20);
 
-        CategoryPageResponse data =
-                CategoryPageResponse.from(
+        CategoryPageResponse data = CategoryPageResponse.from(
                         category,
                         previewProducts.getContent(),
                         brands

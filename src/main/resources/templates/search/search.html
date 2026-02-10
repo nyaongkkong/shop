@@ -42,28 +42,36 @@
         </section>
 
         <!-- 🔥 FILTER BAR 추가 -->
-        <section style="margin-top:26px;">
-
+        <section class="filter-wrapper">
             <div class="search-filter-bar">
-
-                <button class="filter-btn" data-sort="POPULAR">
-                    인기순 ❤️
-                </button>
-
-                <button class="filter-btn" data-sort="LATEST">
-                    최신순
-                </button>
-
-                <button class="filter-btn" data-sort="PRICE_LOW">
-                    가격낮은순
-                </button>
-
-                <button class="filter-btn" data-sort="PRICE_HIGH">
-                    가격높은순
-                </button>
-
+                <button class="filter-btn" data-sort="POPULAR">인기순 ❤️</button>
+                <button class="filter-btn" data-sort="LATEST">최신순</button>
+                <button class="filter-btn" data-sort="PRICE_LOW">가격낮은순</button>
+                <button class="filter-btn" data-sort="PRICE_HIGH">가격높은순</button>
             </div>
+        </section>
 
+        <section class="price-filter-section">
+            <div class="price-filter-title">가격</div>
+            <div class="price-slider-wrapper">
+                <input type="range"
+                       id="priceMin"
+                       min="0"
+                       max="500000"
+                       step="10000"
+                       value="0">
+                <input type="range"
+                       id="priceMax"
+                       min="0"
+                       max="500000"
+                       step="10000"
+                       value="500000">
+            </div>
+            <div class="price-values">
+                <span id="priceMinText">0원</span>
+                <span>~</span>
+                <span id="priceMaxText">500,000원</span>
+            </div>
         </section>
 
         <!-- PRODUCTS -->

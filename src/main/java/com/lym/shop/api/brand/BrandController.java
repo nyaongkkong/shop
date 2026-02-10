@@ -25,6 +25,8 @@ public class BrandController {
     public ResponseEntity<ApiResponse<BrandPageResponse>> brandPage(
             @PathVariable String slug,
             @RequestParam(defaultValue = "LATEST") ProductSortType sort,
+            Long minPrice,
+            Long maxPrice,
             @RequestParam(defaultValue = "0") int page
     ) {
         Brand brand = brandService.getBySlug(slug);
@@ -34,6 +36,8 @@ public class BrandController {
                         slug,       // brandSlug
                         null,       // keyword 없음
                         sort,
+                        minPrice,
+                        maxPrice,
                         PageRequest.of(page, 20)
                 );
 

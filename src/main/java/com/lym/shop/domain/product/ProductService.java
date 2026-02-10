@@ -19,6 +19,8 @@ public class ProductService {
             String brandSlug,
             String keyword,
             ProductSortType sortType,
+            Long minPrice,
+            Long maxPrice,
             Pageable pageable
     ) {
 
@@ -27,6 +29,8 @@ public class ProductService {
                 brandSlug,
                 keyword,
                 sortType,
+                minPrice,
+                maxPrice,
                 pageable
         );
     }

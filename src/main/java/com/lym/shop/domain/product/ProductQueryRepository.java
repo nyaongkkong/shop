@@ -10,6 +10,8 @@ public interface ProductQueryRepository {
             String brandSlug,
             String keyword,
             ProductSortType sortType,
+            Long minPrice,
+            Long maxPrice,
             Pageable pageable
     );
 }
